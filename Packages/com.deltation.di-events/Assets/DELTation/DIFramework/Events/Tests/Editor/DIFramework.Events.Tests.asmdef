@@ -1,0 +1,20 @@
+{
+    "name": "DIFramework.Events.Tests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:38678342c0b929844b058cbc8702fe91"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

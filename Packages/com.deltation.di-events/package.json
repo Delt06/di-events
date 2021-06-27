@@ -1,0 +1,17 @@
+﻿{
+  "name": "com.deltation.di-events",
+  "version": "0.1.0",
+  "displayName": "DI Framework Event System",
+  "description": "An event system for DI Framework..",
+  "unity": "2020.3",
+
+  "keywords": [
+    "Events"
+  ],
+
+  "author": {
+    "name": "Vladislav Kantaev",
+    "email": "vvkantaev@yandex.ru",
+    "url": "https://delt06.github.io/page/"
+  }
+}
