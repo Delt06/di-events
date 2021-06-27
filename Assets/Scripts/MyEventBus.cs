@@ -6,12 +6,20 @@ public class MyEventBus : ConfigurableEventBus
 	protected override void Configure()
 	{
 		To<SpacePressEvent>()
-			.Subscribe(() => Debug.Log("Pressed space."))
+			.Subscribe<SpacePressEventSubscriber>() // uses DI for creation
 			;
 
 		To<LmbClickEvent>()
 			.Subscribe(() => Debug.Log("Clicked left mouse button."))
 			;
+	}
+}
+
+public class SpacePressEventSubscriber : EventSubscriber
+{
+	protected override void OnEventRaised()
+	{
+		Debug.Log("Pressed space.");
 	}
 }
 

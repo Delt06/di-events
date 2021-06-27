@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ControlsEventEmitter : MonoBehaviour
 {
+	// Access event bus through DI
 	public void Construct(IEventBus eventBus)
 	{
 		_eventBus = eventBus;
