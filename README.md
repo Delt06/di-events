@@ -36,7 +36,6 @@ public class MyEventBus : ConfigurableEventBus
 	{
 		To<SpacePressEvent>()
 			.Subscribe<SpacePressEventSubscriber>() // uses DI for creation
-			.Subscribe(() => enabled = false)
 			;
 
 		To<LmbClickEvent, int>()
