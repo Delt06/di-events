@@ -8,7 +8,7 @@ namespace DELTation.DIFramework.Events
 
 		protected EventSubscriber() => _eventHandler = OnEventRaised;
 
-		protected abstract void OnEventRaised(in TArgs args);
+		protected abstract void OnEventRaised(in TArgs args, ref EventCancellationToken cancellationToken);
 
 		public void SubscribeTo(IEvent<TArgs> @event)
 		{

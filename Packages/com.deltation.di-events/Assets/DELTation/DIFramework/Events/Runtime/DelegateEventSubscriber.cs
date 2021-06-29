@@ -10,6 +10,7 @@ namespace DELTation.DIFramework.Events
 		public DelegateEventSubscriber([NotNull] EventSubscriberAction<TArgs> onEvent) =>
 			_onEvent = onEvent ?? throw new ArgumentNullException(nameof(onEvent));
 
-		protected override void OnEventRaised(in TArgs args) => _onEvent(args);
+		protected override void OnEventRaised(in TArgs args, ref EventCancellationToken cancellationToken) =>
+			_onEvent(args, ref cancellationToken);
 	}
 }
