@@ -7,10 +7,4 @@ namespace DELTation.DIFramework.Events
 		void SubscribeTo([NotNull] IEvent<TArgs> @event);
 		void UnsubscribeFrom([NotNull] IEvent<TArgs> @event);
 	}
-
-	public interface IEventSubscriber
-	{
-		void SubscribeTo([NotNull] IEvent @event);
-		void UnsubscribeFrom([NotNull] IEvent @event);
-	}
 }
