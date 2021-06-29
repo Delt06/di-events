@@ -1,6 +1,6 @@
 {
   "name": "com.deltation.di-events",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "displayName": "DI Framework Event System",
   "description": "An event system for DI Framework..",
   "unity": "2020.3",
