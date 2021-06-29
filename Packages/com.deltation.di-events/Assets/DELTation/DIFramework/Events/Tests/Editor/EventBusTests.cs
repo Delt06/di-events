@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using NUnit.Framework;
 
 namespace DELTation.DIFramework.Events.Tests
@@ -23,7 +23,7 @@ namespace DELTation.DIFramework.Events.Tests
 			// Arrange
 
 			// Act
-			var @event = _eventBus.GetEvent<SomeEventTag>();
+			var @event = _eventBus.GetEvent<SomeEventTag, NoArgs>();
 
 			// Assert
 			Assert.That(@event, Is.Not.Null);
@@ -36,7 +36,7 @@ namespace DELTation.DIFramework.Events.Tests
 
 			// Act
 			var events = Enumerable.Range(0, repetitions)
-				.Select(i => _eventBus.GetEvent<SomeEventTag>())
+				.Select(i => _eventBus.GetEvent<SomeEventTag, NoArgs>())
 				.ToArray();
 
 			// Assert
@@ -49,8 +49,8 @@ namespace DELTation.DIFramework.Events.Tests
 			// Arrange
 
 			// Act
-			var someEvent = _eventBus.GetEvent<SomeEventTag>();
-			var otherEvent = _eventBus.GetEvent<OtherEventTag>();
+			var someEvent = _eventBus.GetEvent<SomeEventTag, NoArgs>();
+			var otherEvent = _eventBus.GetEvent<OtherEventTag, NoArgs>();
 
 			// Assert
 			Assert.That(someEvent, Is.Not.EqualTo(otherEvent));

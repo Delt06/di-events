@@ -12,10 +12,14 @@ public class ControlsEventEmitter : MonoBehaviour
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
-			_eventBus.Raise<SpacePressEvent>();
+			RaiseEvent.On(_eventBus).WithTag<SpacePressEvent>();
 
-		if (Input.GetMouseButtonDown(0))
-			_eventBus.Raise<LmbClickEvent>();
+
+		for (var i = 0; i < 3; i++)
+		{
+			if (Input.GetMouseButtonDown(i))
+				RaiseEvent.On(_eventBus).WithArguments(i).AndTag<LmbClickEvent>();
+		}
 	}
 
 	private IEventBus _eventBus;

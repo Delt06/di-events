@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
@@ -6,20 +6,25 @@ namespace DELTation.DIFramework.Events
 {
 	public sealed class EventBus : IEventBus
 	{
-		public IEvent GetEvent<TEventTag>() where TEventTag : IEventTag
+		public IEvent<TArgs> GetEvent<TEventTag, TArgs>() where TEventTag : IEventTag<TArgs>
 		{
 			var eventType = typeof(TEventTag);
-			return GetEvent(eventType);
+			var fallbackCreationProcedure = GetFallbackCreationProcedure<TArgs>();
+			return (IEvent<TArgs>) GetEvent(eventType, fallbackCreationProcedure);
 		}
 
-		internal IEvent GetEvent([NotNull] Type eventType)
+		internal static EventCreationProcedure GetFallbackCreationProcedure<TArgs>() => Event<TArgs>.CreationProcedure;
+
+		internal IEvent GetEvent([NotNull] Type eventType, [NotNull] EventCreationProcedure fallbackCreationProcedure)
 		{
 			if (eventType == null) throw new ArgumentNullException(nameof(eventType));
+			if (fallbackCreationProcedure == null) throw new ArgumentNullException(nameof(fallbackCreationProcedure));
+
 			if (!_events.TryGetValue(eventType, out var @event))
-				_events[eventType] = @event = new Event();
-			return @event;
+				_events[eventType] = @event = fallbackCreationProcedure();
+			return (IEvent) @event;
 		}
 
-		private readonly IDictionary<Type, IEvent> _events = new Dictionary<Type, IEvent>();
+		private readonly IDictionary<Type, object> _events = new Dictionary<Type, object>();
 	}
 }

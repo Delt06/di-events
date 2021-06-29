@@ -1,26 +1,30 @@
-﻿using System;
+using System;
 
 namespace DELTation.DIFramework.Events
 {
-	public sealed class Event : IEvent
+	public static class Event { }
+
+	public sealed class Event<TArgs> : IEvent<TArgs>
 	{
-		private Action _subscriptions;
+		private EventSubscriberAction<TArgs> _subscriptions;
 
-		public void Raise()
+		public void Raise(in TArgs args)
 		{
-			_subscriptions?.Invoke();
+			_subscriptions?.Invoke(args);
 		}
 
-		public void Subscribe(Action subscription)
-		{
-			if (subscription == null) throw new ArgumentNullException(nameof(subscription));
-			_subscriptions = (Action) Delegate.Combine(_subscriptions, subscription);
-		}
-
-		public void Unsubscribe(Action subscription)
+		public void Subscribe(EventSubscriberAction<TArgs> subscription)
 		{
 			if (subscription == null) throw new ArgumentNullException(nameof(subscription));
-			_subscriptions = (Action) Delegate.Remove(_subscriptions, subscription);
+			_subscriptions = (EventSubscriberAction<TArgs>) Delegate.Combine(_subscriptions, subscription);
 		}
+
+		public void Unsubscribe(EventSubscriberAction<TArgs> subscription)
+		{
+			if (subscription == null) throw new ArgumentNullException(nameof(subscription));
+			_subscriptions = (EventSubscriberAction<TArgs>) Delegate.Remove(_subscriptions, subscription);
+		}
+
+		internal static readonly EventCreationProcedure CreationProcedure = () => new Event<TArgs>();
 	}
 }

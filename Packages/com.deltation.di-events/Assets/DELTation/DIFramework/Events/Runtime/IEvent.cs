@@ -1,12 +1,13 @@
-﻿using System;
 using JetBrains.Annotations;
 
 namespace DELTation.DIFramework.Events
 {
-	public interface IEvent
+	public interface IEvent { }
+
+	public interface IEvent<TArgs> : IEvent
 	{
-		void Raise();
-		void Subscribe([NotNull] Action subscription);
-		void Unsubscribe([NotNull] Action subscription);
+		void Raise(in TArgs args);
+		void Subscribe([NotNull] EventSubscriberAction<TArgs> subscription);
+		void Unsubscribe([NotNull] EventSubscriberAction<TArgs> subscription);
 	}
 }

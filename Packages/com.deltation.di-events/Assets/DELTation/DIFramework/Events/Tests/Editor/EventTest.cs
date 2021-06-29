@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -11,8 +11,8 @@ namespace DELTation.DIFramework.Events.Tests
 		{
 			// Arrange
 			var invokedTimes = 0;
-			var @event = new Event();
-			@event.Subscribe(() => invokedTimes++);
+			var @event = new Event<NoArgs>();
+			@event.Subscribe(delegate { invokedTimes++; });
 
 			// Act
 			@event.Raise();
@@ -21,17 +21,37 @@ namespace DELTation.DIFramework.Events.Tests
 			Assert.That(invokedTimes, Is.EqualTo(1));
 		}
 
+		[Test, TestCase(1), TestCase(2), TestCase(5)]
+		public void GivenEventSubscription_WhenRaisingWithArgs_ThenReceiveArgs(int passedArgs)
+		{
+			// Arrange
+			var correctArgsInvokedTimes = 0;
+			var @event = new Event<int>();
+			@event.Subscribe((in int args) =>
+				{
+					if (args != passedArgs) return;
+					correctArgsInvokedTimes++;
+				}
+			);
+
+			// Act
+			@event.Raise(passedArgs);
+
+			// Assert
+			Assert.That(correctArgsInvokedTimes, Is.EqualTo(1));
+		}
+
 		[Test, TestCase(2), TestCase(5), TestCase(13)]
 		public void GivenEventSubscriptions_WhenRaising_ThenInvokedInCorrectOrder(int subscriptions)
 		{
 			// Arrange
 			var invocations = new List<int>();
-			var @event = new Event();
+			var @event = new Event<NoArgs>();
 
 			for (var subscriberIndex = 0; subscriberIndex < subscriptions; subscriberIndex++)
 			{
 				var i = subscriberIndex;
-				@event.Subscribe(() => invocations.Add(i));
+				@event.Subscribe(delegate { invocations.Add(i); });
 			}
 
 			// Act
@@ -47,8 +67,8 @@ namespace DELTation.DIFramework.Events.Tests
 		{
 			// Arrange
 			var invokedTimes = 0;
-			var @event = new Event();
-			void Subscription() => invokedTimes++;
+			var @event = new Event<NoArgs>();
+			void Subscription(in NoArgs args) => invokedTimes++;
 			@event.Subscribe(Subscription);
 
 			// Act
@@ -64,11 +84,11 @@ namespace DELTation.DIFramework.Events.Tests
 		{
 			// Arrange
 			var invokedTimes = 0;
-			var @event = new Event();
+			var @event = new Event<NoArgs>();
 
 			for (var i = 0; i < repetitions; i++)
 			{
-				@event.Subscribe(() => invokedTimes++);
+				@event.Subscribe(delegate { invokedTimes++; });
 			}
 
 			// Act

@@ -1,7 +1,7 @@
-﻿namespace DELTation.DIFramework.Events
+namespace DELTation.DIFramework.Events
 {
 	public interface IEventBus
 	{
-		IEvent GetEvent<TEventTag>() where TEventTag : IEventTag;
+		IEvent<TArgs> GetEvent<TEventTag, TArgs>() where TEventTag : IEventTag<TArgs>;
 	}
 }

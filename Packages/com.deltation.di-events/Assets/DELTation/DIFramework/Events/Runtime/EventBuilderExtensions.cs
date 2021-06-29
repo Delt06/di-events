@@ -1,12 +1,13 @@
-﻿namespace DELTation.DIFramework.Events
+namespace DELTation.DIFramework.Events
 {
 	public static class EventBuilderExtensions
 	{
 		public static ConfigurableEventBus.EventBuilder Subscribe<TEventSubscriber>(
-			in this ConfigurableEventBus.EventBuilder eventBuilder) where TEventSubscriber : class, IEventSubscriber
+			in this ConfigurableEventBus.EventBuilder eventBuilder) where TEventSubscriber : TypelessEventSubscriber
 		{
 			var eventSubscriber = Di.Create<TEventSubscriber>();
-			return eventBuilder.Subscribe(eventSubscriber);
+			var fallbackCreationProcedure = eventSubscriber.GetEventCreationProcedure();
+			return eventBuilder.Subscribe(eventSubscriber, fallbackCreationProcedure);
 		}
 	}
 }

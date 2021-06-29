@@ -9,15 +9,15 @@ public class MyEventBus : ConfigurableEventBus
 			.Subscribe<SpacePressEventSubscriber>() // uses DI for creation
 			;
 
-		To<LmbClickEvent>()
-			.Subscribe(() => Debug.Log("Clicked left mouse button."))
+		To<LmbClickEvent, int>()
+			.Subscribe((in int button) => Debug.Log($"Clicked mouse button: {button}."))
 			;
 	}
 }
 
-public class SpacePressEventSubscriber : EventSubscriber
+public class SpacePressEventSubscriber : EventSubscriber<NoArgs>
 {
-	protected override void OnEventRaised()
+	protected override void OnEventRaised(in NoArgs args)
 	{
 		Debug.Log("Pressed space.");
 	}
@@ -25,4 +25,4 @@ public class SpacePressEventSubscriber : EventSubscriber
 
 public class SpacePressEvent : IEventTag { }
 
-public class LmbClickEvent : IEventTag { }
+public class LmbClickEvent : IEventTag<int> { }

@@ -1,4 +1,6 @@
-﻿namespace DELTation.DIFramework.Events
+namespace DELTation.DIFramework.Events
 {
-	public interface IEventTag { }
+	public interface IEventTag : IEventTag<NoArgs> { }
+
+	public interface IEventTag<TArgs> { }
 }
