@@ -14,7 +14,6 @@ public class ControlsEventEmitter : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space))
 			RaiseEvent.On(_eventBus).WithTag<SpacePressEvent>();
 
-
 		for (var i = 0; i < 3; i++)
 		{
 			if (Input.GetMouseButtonDown(i))

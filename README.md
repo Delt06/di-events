@@ -38,15 +38,15 @@ public class MyEventBus : ConfigurableEventBus
 			.Subscribe<SpacePressEventSubscriber>() // uses DI for creation
 			;
 
-		To<LmbClickEvent>()
-			.Subscribe(() => Debug.Log("Clicked left mouse button."))
+		To<LmbClickEvent, int>()
+			.Subscribe((in int button) => Debug.Log($"Clicked mouse button: {button}."))
 			;
 	}
 }
 
-public class SpacePressEventSubscriber : EventSubscriber
+public class SpacePressEventSubscriber : EventSubscriber<NoArgs>
 {
-	protected override void OnEventRaised()
+	protected override void OnEventRaised(in NoArgs args)
 	{
 		Debug.Log("Pressed space.");
 	}
@@ -54,7 +54,7 @@ public class SpacePressEventSubscriber : EventSubscriber
 
 public class SpacePressEvent : IEventTag { }
 
-public class LmbClickEvent : IEventTag { }
+public class LmbClickEvent : IEventTag<int> { }
 ```
 
 - `ControlsEventEmitter.cs`:
@@ -73,10 +73,13 @@ public class ControlsEventEmitter : MonoBehaviour
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
-			_eventBus.Raise<SpacePressEvent>();
+			RaiseEvent.On(_eventBus).WithTag<SpacePressEvent>();
 
-		if (Input.GetMouseButtonDown(0))
-			_eventBus.Raise<LmbClickEvent>();
+		for (var i = 0; i < 3; i++)
+		{
+			if (Input.GetMouseButtonDown(i))
+				RaiseEvent.On(_eventBus).WithArguments(i).AndTag<LmbClickEvent>();
+		}
 	}
 
 	private IEventBus _eventBus;
