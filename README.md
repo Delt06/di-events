@@ -1,6 +1,4 @@
-﻿# DI Events
-
-#  Unity DI Framework
+# DI Events
 
 [![Version](https://img.shields.io/github/v/release/Delt06/di-events?sort=semver)](https://github.com/Delt06/di-events/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
